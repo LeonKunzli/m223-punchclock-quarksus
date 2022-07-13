@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -19,7 +21,6 @@ import ch.zli.m223.punchclock.service.EntryService;
 @Path("/entries")
 @Tag(name = "Entries", description = "Handling of entries")
 public class EntryController {
-
     @Inject
     EntryService entryService;
 
@@ -36,6 +37,22 @@ public class EntryController {
     @Operation(summary = "Add a new Entry", description = "The newly created entry is returned. The id may not be passed.")
     public Entry add(Entry entry) {
        return entryService.createEntry(entry);
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Remove an Entry", description = "The removed entry is returned.")
+    public Entry delete(Long id) {
+       return entryService.removeEntry(id);
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Update an Entry", description = "The updated entry not is returned.")
+    public void update(Entry entry) {
+       entryService.updateEntry(entry);
     }
 
 }

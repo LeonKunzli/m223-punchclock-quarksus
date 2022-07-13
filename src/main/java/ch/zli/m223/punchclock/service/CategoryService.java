@@ -7,42 +7,42 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import ch.zli.m223.punchclock.domain.Entry;
+import ch.zli.m223.punchclock.domain.Category;
 
 @ApplicationScoped
-public class EntryService {
+public class CategoryService {
     @Inject
     private EntityManager entityManager;
 
-    public EntryService() {
+    public CategoryService() {
     }
 
     @Transactional 
-    public Entry createEntry(Entry entry) {
-        entityManager.persist(entry);
-        return entry;
+    public Category createCategory(Category category) {
+        entityManager.persist(category);
+        return category;
     }
 
     @Transactional 
-    public Entry removeEntry(Long id) {      
-        Entry entry = entityManager.find(Entry.class, id);
+    public Category removeCategory(Long id) {      
+        Category category = entityManager.find(Category.class, id);
         try{
-        entityManager.remove(entry);
+        entityManager.remove(category);
         }
         catch(IllegalArgumentException e){
             System.out.println("Object to be deleted does not exist.");
         }
-        return entry;
+        return category;
     }
 
     @SuppressWarnings("unchecked")
-    public List<Entry> findAll() {
-        var query = entityManager.createQuery("FROM Entry");
+    public List<Category> findAll() {
+        var query = entityManager.createQuery("FROM Category");
         return query.getResultList();
     }
 
     @Transactional 
-    public void updateEntry(Entry entry){
-        entityManager.merge(entry);
+    public void updateCategory(Category category){
+        entityManager.merge(category);
     }
 }
