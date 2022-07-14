@@ -45,4 +45,10 @@ public class UserService {
     public void updateUser(User user){
         entityManager.merge(user);
     }
+
+    public User getUserByName(String username){
+        var query = entityManager.createQuery("FROM User WHERE username = :name", User.class);        
+        query.setParameter("name", username);
+        return query.getSingleResult();
+    }
 }

@@ -1,7 +1,6 @@
 package ch.zli.m223.punchclock.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -19,8 +18,6 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import ch.zli.m223.punchclock.domain.Role;
 import ch.zli.m223.punchclock.service.RoleService;
-import io.quarkus.security.identity.SecurityIdentity;
-import io.quarkus.security.runtime.SecurityIdentityAssociation;
 
 @Path("/roles")
 @Tag(name = "Roles", description = "Handling of roles")
