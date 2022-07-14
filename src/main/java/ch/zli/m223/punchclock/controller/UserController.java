@@ -18,12 +18,16 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import ch.zli.m223.punchclock.domain.User;
 import ch.zli.m223.punchclock.service.UserService;
+import io.quarkus.security.runtime.SecurityIdentityAssociation;
 
 @Path("/users")
 @Tag(name = "Users", description = "Handling of users")
 public class UserController {
     @Inject
     UserService userService;
+
+    @Inject
+    SecurityIdentityAssociation identity;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -55,6 +59,14 @@ public class UserController {
     @Operation(summary = "Update an User", description = "The updated user not is returned.")
     public void update(User user) {
        userService.updateUser(user);
+    }
+
+    @GET
+    @Path("/currentuserrole")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getUserRole() {
+      return identity.getIdentity().getPrincipal().getName();
+      
     }
 
 }

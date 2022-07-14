@@ -16,8 +16,7 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @OneToMany(mappedBy="category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Entry> entries;
 
