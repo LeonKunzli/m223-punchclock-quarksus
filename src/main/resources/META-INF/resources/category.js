@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 function fetchCategories() {
     fetch(`${URL}/categories`, {
+        //'Authorization': 'Bearer ' + localStorage.getItem("token"),
         method: 'GET'
     }).then((result) => {
         result.json().then((result) => {
