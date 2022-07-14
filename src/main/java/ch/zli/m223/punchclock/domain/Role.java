@@ -18,8 +18,7 @@ public class Role {
     private String title;
 
     @OneToMany
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    @JsonIgnore
+
     private List<User> users;
 
 

@@ -6,17 +6,24 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.quarkus.security.jpa.Password;
+import io.quarkus.security.jpa.UserDefinition;
+import io.quarkus.security.jpa.Username;
+
 
 @Entity
+@UserDefinition
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Username
     @Column(nullable = false)
     private String username;
 
+    @Password
     @Column(nullable = false)
     private String password;
 
@@ -25,6 +32,19 @@ public class User {
     @JsonIgnore
     private List<Entry> entries;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Role role;
+
+
+    public Role getRole() {
+        return this.role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public Long getId() {
         return this.id;

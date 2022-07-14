@@ -45,4 +45,5 @@ public class RoleService {
     public void updateRole(Role role){
         entityManager.merge(role);
     }
+
 }
