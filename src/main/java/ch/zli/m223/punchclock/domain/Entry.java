@@ -18,7 +18,7 @@ public class Entry {
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private Category category;
+    private Category category; 
 
 
     public Category getCategory() {

@@ -1,6 +1,10 @@
 package ch.zli.m223.punchclock.domain;
 
+import java.util.List;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Category {
@@ -11,6 +15,11 @@ public class Category {
 
     @Column(nullable = false)
     private String name;
+
+    @OneToMany
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonIgnore
+    private List<Entry> entries;
 
     public Long getId() {
         return id;
@@ -27,4 +36,14 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+
+
+    public List<Entry> getEntries() {
+        return this.entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
+    }
+
 }

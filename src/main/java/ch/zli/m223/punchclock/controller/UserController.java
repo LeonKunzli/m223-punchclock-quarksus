@@ -19,15 +19,15 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ch.zli.m223.punchclock.domain.User;
 import ch.zli.m223.punchclock.service.UserService;
 
-@Path("/categories")
-@Tag(name = "Categories", description = "Handling of categories")
+@Path("/users")
+@Tag(name = "Users", description = "Handling of users")
 public class UserController {
     @Inject
     UserService userService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "List all Categories", description = "")
+    @Operation(summary = "List all Users", description = "")
     public List<User> list() {
         return userService.findAll();
     }

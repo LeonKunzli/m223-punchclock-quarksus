@@ -9,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -43,7 +44,8 @@ public class EntryController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Remove an Entry", description = "The removed entry is returned.")
-    public Entry delete(Long id) {
+    @Path("/{id}")
+    public Entry delete(@PathParam("id") Long id) {
        return entryService.removeEntry(id);
     }
 

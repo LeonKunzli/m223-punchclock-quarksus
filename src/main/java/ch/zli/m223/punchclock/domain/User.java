@@ -1,6 +1,11 @@
 package ch.zli.m223.punchclock.domain;
 
+import java.util.List;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class User {
@@ -16,8 +21,9 @@ public class User {
     private String password;
 
     @OneToMany
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private Entry[] entries;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
+    private List<Entry> entries;
 
 
     public Long getId() {
@@ -44,12 +50,13 @@ public class User {
         this.password = password;
     }
 
-    public Entry[] getEntries() {
+    public List<Entry> getEntries() {
         return this.entries;
     }
 
-    public void setEntries(Entry[] entries) {
+    public void setEntries(List<Entry> entries) {
         this.entries = entries;
     }
+
 
 }
