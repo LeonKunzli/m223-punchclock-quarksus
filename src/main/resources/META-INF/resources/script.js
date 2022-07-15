@@ -1,5 +1,32 @@
 const URL = 'http://localhost:8080';
 let entries = [];
+let role = "user";
+
+function fetchRole() {
+    fetch(`${URL}/users/currentuserrole`, {
+        method: 'GET',
+        headers: {'Authorization': "Bearer " + localStorage.getItem("token")}
+    }).then((response) => {
+        if(!response.ok){
+            role = null;
+        }
+        else{
+        response.text().then((temp) => {
+            role = temp;
+            if(role == null) {
+                ocation.href = "auth.html";
+            }
+            else if(role=="user"){
+                document.getElementById("categoryButton").style.display = "none";
+            }
+        });
+        }
+    });
+}
+
+$(document).ready(function(){
+    fetchRole();
+});
 
 function openUpdateEntryForm() {
     document.getElementById("error").innerText = "";
@@ -54,7 +81,6 @@ const updateEntry = (e) => {
     data["checkIn"] = formData.get("checkIn");
     data["checkOut"] = formData.get("checkOut");
     data["category"] = categories[formData.get("category")];
-
     fetch(`${URL}/entries`, {
         method: 'PUT',
         headers: {
@@ -62,21 +88,14 @@ const updateEntry = (e) => {
         },
         body: JSON.stringify(data)
     }).then((result) => {
-        result.json().then((entry) => {
-            if(entry.checkIn == undefined) {
-                document.getElementById("errorUpdate").innerText = entry.parameterViolations[0].message;
-            }else {
-                closeUpdateEntryForm();
-                indexEntries();
-            }
-        });
+        closeUpdateEntryForm();
+        indexEntries();
     }).catch((result) => {
         result.json().then((response) => {
             document.getElementById("errorUpdate").innerText = response.parameterViolations[0].message;
         });
     });
 };
-
 
 const deleteEntry = (id) => {
     fetch(`${URL}/entries/${id}`, {

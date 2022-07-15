@@ -2,6 +2,7 @@ package ch.zli.m223.punchclock.controller;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import ch.zli.m223.punchclock.domain.Role;
 import ch.zli.m223.punchclock.domain.User;
 import ch.zli.m223.punchclock.service.UserService;
 import io.quarkus.security.runtime.SecurityIdentityAssociation;
@@ -63,10 +65,11 @@ public class UserController {
 
     @GET
     @Path("/currentuserrole")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public String getUserRole() {
-      return identity.getIdentity().getPrincipal().getName();
-      
+      String name = identity.getIdentity().getPrincipal().getName();
+      User user = userService.getUserByName(name);
+      return user.getRoles().get(0).getRole();
     }
 
 }

@@ -1,5 +1,6 @@
 package ch.zli.m223.punchclock.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.quarkus.security.jpa.Password;
+import io.quarkus.security.jpa.Roles;
 import io.quarkus.security.jpa.UserDefinition;
 import io.quarkus.security.jpa.Username;
 
@@ -27,24 +29,32 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    /*
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Entry> entries;
+    private List<Entry> entries;*/
 
-    @ManyToOne
+    
+    @ManyToMany
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     @JsonIgnore
-    private Role role;
+    @Roles
+    public List<Role> roles = new ArrayList<>();
 
 
-    public Role getRole() {
-        return this.role;
+    public User() {
+
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+
+    public List<Role> getRoles() {
+        return this.roles;
     }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+    
 
     public Long getId() {
         return this.id;
@@ -61,7 +71,6 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-
     public String getPassword() {
         return this.password;
     }
@@ -69,7 +78,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
+/*
     public List<Entry> getEntries() {
         return this.entries;
     }
@@ -78,5 +87,6 @@ public class User {
         this.entries = entries;
     }
 
+ */
 
 }

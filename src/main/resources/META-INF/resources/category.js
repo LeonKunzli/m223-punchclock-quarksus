@@ -1,7 +1,31 @@
 const URL = 'http://localhost:8080';
 let categories = [];
+let role = "user";
+
+function fetchRole() {
+    fetch(`${URL}/users/currentuserrole`, {
+        method: 'GET',
+        headers: {'Authorization': "Bearer " + localStorage.getItem("token")}
+    }).then((response) => {
+        if(!response.ok){
+            role = null;
+        }
+        else{
+        response.text().then((temp) => {
+            role = temp;
+            if(role == null) {
+                location.href = "auth.html";
+            }else if(role == "user") {
+                location.href = "index.html";
+            }
+        });
+        }
+    });
+}
+
 $(document).ready(function() {
     fetchCategories();
+    fetchRole();
 });
 
 function fetchCategories() {

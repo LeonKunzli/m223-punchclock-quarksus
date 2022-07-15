@@ -4,22 +4,28 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.quarkus.security.jpa.RolesValue;
+
 
 
 @Entity
-public class Role {
+@Table(name = "roles")
+public class Role{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
+    @ManyToMany(mappedBy = "roles")
+    public List<User> users;
 
-    @OneToMany
+    @RolesValue
+    public String role;
 
-    private List<User> users;
+    /*
+    @OneToMany(mappedBy="job", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<User> users;*/
 
 
     public Long getId() {
@@ -30,21 +36,12 @@ public class Role {
         this.id = id;
     }
 
-    public String getTitle() {
-        return this.title;
+
+    public String getRole() {
+        return this.role;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setRole(String role) {
+        this.role = role;
     }
-
-    public List<User> getUsers() {
-        return this.users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-
 }
