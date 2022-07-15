@@ -19,6 +19,10 @@ Datenquelle: jdbc:h2:mem:punchclock
 Benutzername: zli
 Passwort: zli
 
+Diese Applikation dient dazu, Zeiten zu erfassen, in denen bestimmte Mitarbeiter etwas bestimmtes gearbeitet haben.
+öffnen Sie diese Applikation in Ihrem Web Browser und geben Sie ihre gewünschten Daten ein, um zu starten. Admins können nur von 
+anderen Admins erstellt werden. Es besteht bereits ein Admin namens Elia. 
+
 Beispieldaten werden via Startup.java geladen:
 Rolle "user" und Rolle "admin",
 Admin "Elia" mit Passwort 1234,
