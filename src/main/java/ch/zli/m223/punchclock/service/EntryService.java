@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import ch.zli.m223.punchclock.domain.Entry;
+import ch.zli.m223.punchclock.domain.User;
 
 @ApplicationScoped
 public class EntryService {
@@ -36,9 +37,17 @@ public class EntryService {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Entry> findAll() {
+    public List<Entry> findAll(User user) {
         var query = entityManager.createQuery("FROM Entry");
-        return query.getResultList();
+        List<Entry> entries = query.getResultList();
+        if(user.getRoles().get(0).getRole().equals("user")){
+            for (Entry entry : entries) {
+                if(entry.getUser()!=user){
+                    entries.remove(entry);
+                }
+            }
+        }
+        return entries;
     }
 
     @Transactional 

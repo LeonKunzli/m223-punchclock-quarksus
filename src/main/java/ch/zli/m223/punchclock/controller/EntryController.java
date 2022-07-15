@@ -17,6 +17,7 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import ch.zli.m223.punchclock.domain.Entry;
+import ch.zli.m223.punchclock.domain.User;
 import ch.zli.m223.punchclock.service.EntryService;
 
 @Path("/entries")
@@ -25,11 +26,14 @@ public class EntryController {
     @Inject
     EntryService entryService;
 
+    @Inject
+    UserService userService;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "List all Entries", description = "")
-    public List<Entry> list() {
-        return entryService.findAll();
+    public List<Entry> list(User user) {
+        return entryService.findAll(user);
     }
 
     @POST
