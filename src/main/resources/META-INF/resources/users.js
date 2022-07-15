@@ -110,6 +110,8 @@ const deleteUser = (id) => {
         headers: {
             'Content-Type': 'application/json'
         }
+    }).then(() => {
+        indexUsers();
     });
 }
 

@@ -106,6 +106,8 @@ const deleteCategory = (id) => {
         headers: {
             'Content-Type': 'application/json'
         }
+    }).then(() => {
+        indexCategories();
     });
 }
 

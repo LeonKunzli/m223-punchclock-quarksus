@@ -124,6 +124,8 @@ const deleteEntry = (id) => {
         headers: {
             'Content-Type': 'application/json'
         }
+    }).then(() => {
+        indexEntries();
     });
 }
 
