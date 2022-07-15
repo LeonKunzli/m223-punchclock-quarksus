@@ -36,7 +36,7 @@ function fetchRole() {
 $(document).ready(function(){
     document.getElementById("logoutButton").onclick = function() {
         localStorage.clear();
-        location.href = "auth.html";
+        location.href = "auth.html"; 
     }
     fetchRole();
 });

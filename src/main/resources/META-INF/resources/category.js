@@ -14,103 +14,149 @@ function fetchRole() {
             role = null;
         }
         else{
+         
         response.text().then((temp) => {
             role = temp;
             if(role == null) {
                 location.href = "auth.html";
-            }else if(role == "user") {
+            }
+            else if(role=="category"){
                 location.href = "index.html";
             }
+            indexCategories();
         });
         }
     });
 }
 
-$(document).ready(function() {
-    fetchCategories();
+$(document).ready(function(){
     fetchRole();
 });
 
-function fetchCategories() {
-    fetch(`${URL}/categories`, {
-        //'Authorization': 'Bearer ' + localStorage.getItem("token"),
-        method: 'GET'
-    }).then((result) => {
-        result.json().then((result) => {
-            categories = result;
-            loadCategories();
-        });
-    });
-    loadCategories();
+
+
+function openUpdateCategoryForm() {
+    document.getElementById("error").innerText = "";
+    document.getElementById("createCategoryForm").removeEventListener("submit", createCategory);
+    document.getElementById("createCategoryForm").addEventListener("submit", updateCategory);
+    document.getElementById("formTitle").innerText = "Update category";
 }
 
-document.getElementById("addCategoryForm").addEventListener("submit", addCategory);
-function addCategory(e){
-    const data = {};
-    const formData = new FormData(e.target);
-    data["name"] = formData.get("name");
+function closeUpdateCategoryForm() {
+    document.getElementById("error").innerText = "";
+    document.getElementById("createCategoryForm").removeEventListener("submit", updateCategory);
+    document.getElementById("createCategoryForm").addEventListener("submit", createCategory);
+    document.getElementById("formTitle").innerText = "Add category";
+}
+
+const createCategory = (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
+    let data = {};
+    data["name"] = formData.get("name");
+
     fetch(`${URL}/categories`, {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+
+        },
+        body: JSON.stringify(data)
+    }).then((result) => {
+        result.json().then((category) => {
+            if(category.id == undefined) {
+                document.getElementById("error").innerText = category.parameterViolations[0].message;
+            }else {
+                indexCategories();
+            }
+        });
+    }).catch((result) => {
+        result.json().then((response) => {
+            document.getElementById("error").innerText = response.parameterViolations[0].message;
+        });
+    });
+};
+
+const updateCategory = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    let data = {};
+    data["id"] = formData.get("id");
+    data["name"] = formData.get("name");
+    fetch(`${URL}/categories`, {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     }).then((result) => {
-        result.json().then((category) => {
-            fetchCategories();
+        closeUpdateCategoryForm();
+        indexCategories();
+    }).catch((result) => {
+        result.json().then((response) => {
+            document.getElementById("errorUpdate").innerText = response.parameterViolations[0].message;
         });
     });
-}
+};
 
-function deleteCategory(id) {
+const deleteCategory = (id) => {
     fetch(`${URL}/categories/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(function() {
-        fetchCategories();
     });
 }
 
+const indexCategories = () => {
+    fetch(`${URL}/categories`, {
+        method: 'GET',
+        headers: {'Authorization': "Bearer " + localStorage.getItem("token")}
+    }).then((result) => {
+        result.json().then((result) => {
+            categories = result;
+            renderCategories();
+        });
+    });
+    renderCategories();
+};
 
-function loadCategories() {
-    let categoryDisplay = document.getElementById("categoryDisplay");
-    categoryDisplay.innerHTML = "";
-    categories.forEach(function(category) {
+const createCell = (text) => {
+    const cell = document.createElement('td');
+    cell.innerText = text;
+    return cell;
+};
+
+const renderCategories = () => {
+    const display = document.querySelector('#categoryDisplay');
+    display.innerHTML = '';
+    categories.forEach((category) => {
         const row = document.createElement('tr');
-        const id = document.createElement('td');
-        id.innerText = category.id;
-        const name = document.createElement('td');
-        name.innerText = category.name;
-        const deleteBtn = document.createElement('button');
-        deleteBtn.innerText = "Delete";
-        deleteBtn.onclick = function() {
+        row.appendChild(createCell(category.id));
+        row.appendChild(createCell(category.name));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = "Delete";
+        deleteButton.onclick = function() {
             deleteCategory(category.id);
+            indexCategories();
         };
-        row.appendChild(id);
-        row.appendChild(name);
-        row.appendChild(deleteBtn);
-        categoryDisplay.append(row);
+        row.appendChild(deleteButton); 
+
+        const updateButton = document.createElement('button');
+        updateButton.innerText = "Update";
+        updateButton.onclick = function() {
+            document.getElementById("id").value = category.id;
+            document.getElementById("name").value = category.name
+            openUpdateCategoryForm();
+        }
+        row.appendChild(updateButton);
+        display.appendChild(row);
+
     });
+};
 
-    function openUpdateEntryForm() {
-        document.getElementById("error").innerText = "";
-        document.getElementById("createEntryForm").removeEventListener("submit", createEntry);
-        document.getElementById("createEntryForm").addEventListener("submit", updateEntry);
-        document.getElementById("formTitle").innerText = "Update entry";
-        document.getElementById("updateBack").style.display = "block";
-        document.getElementById("usersDropdown").style.display = "block";
-    }
-
-    function closeUpdateEntryForm() {
-        document.getElementById("error").innerText = "";
-        document.getElementById("createEntryForm").removeEventListener("submit", updateEntry);
-        document.getElementById("createEntryForm").addEventListener("submit", createEntry);
-        document.getElementById("formTitle").innerText = "Add entry";
-        document.getElementById("updateBack").style.display = "none";
-        document.getElementById("usersDropdown").style.display = "none";
-    }
-
-}
+document.addEventListener('DOMContentLoaded', function(){
+    closeUpdateCategoryForm();
+});
