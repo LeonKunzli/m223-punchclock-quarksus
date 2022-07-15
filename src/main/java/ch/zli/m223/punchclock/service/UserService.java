@@ -53,7 +53,7 @@ public class UserService {
     }
 
     public User getUserByName(String username){
-        var query = entityManager.createQuery("FROM User WHERE username = :name", User.class);        
+        var query = entityManager.createQuery("FROM User WHERE username = :name", User.class);     
         query.setParameter("name", username);
         return query.getSingleResult();
     }

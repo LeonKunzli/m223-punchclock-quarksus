@@ -19,6 +19,8 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ch.zli.m223.punchclock.domain.Entry;
 import ch.zli.m223.punchclock.domain.User;
 import ch.zli.m223.punchclock.service.EntryService;
+import ch.zli.m223.punchclock.service.UserService;
+import io.quarkus.security.runtime.SecurityIdentityAssociation;
 
 @Path("/entries")
 @Tag(name = "Entries", description = "Handling of entries")
@@ -29,11 +31,15 @@ public class EntryController {
     @Inject
     UserService userService;
 
+    @Inject
+    SecurityIdentityAssociation identity;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "List all Entries", description = "")
-    public List<Entry> list(User user) {
-        return entryService.findAll(user);
+    public List<Entry> list() {
+      User currentUser = userService.getUserByName(identity.getIdentity().getPrincipal().getName());
+      return entryService.findAll(currentUser);
     }
 
     @POST

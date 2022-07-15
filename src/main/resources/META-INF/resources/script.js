@@ -120,7 +120,8 @@ const deleteEntry = (id) => {
 
 const indexEntries = () => {
     fetch(`${URL}/entries`, {
-        method: 'GET'
+        method: 'GET',
+        headers: {'Authorization': "Bearer " + localStorage.getItem("token")}
     }).then((result) => {
         result.json().then((result) => {
             entries = result;
@@ -193,6 +194,7 @@ const renderEntries = () => {
             row.appendChild(updateButton);
         }
         display.appendChild(row);
+
     });
 };
 
