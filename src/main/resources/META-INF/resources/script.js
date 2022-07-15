@@ -14,7 +14,7 @@ function fetchRole() {
         response.text().then((temp) => {
             role = temp;
             if(role == null) {
-                ocation.href = "auth.html";
+                location.href = "auth.html";
             }
             else if(role=="user"){
                 document.getElementById("categoryButton").style.display = "none";

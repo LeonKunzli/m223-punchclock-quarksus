@@ -33,6 +33,7 @@ public class AuthentificationController {
         if(!authenticationService.checkIfUserExists(user)){
             userService.createUser(user);
         }    
-        return authenticationService.generateValidJwtToken(user.getUsername());
+        user = userService.getUserByName(user.getUsername());
+        return authenticationService.generateValidJwtToken(user);
     }
 }

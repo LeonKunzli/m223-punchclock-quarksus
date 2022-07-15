@@ -46,4 +46,9 @@ public class RoleService {
         entityManager.merge(role);
     }
 
+    public Role findRoleByName(String name) {
+        var query = entityManager.createQuery("FROM Role WHERE role = :role");
+        query.setParameter("role", name);
+        return (Role) query.getSingleResult();
+    }
 }
