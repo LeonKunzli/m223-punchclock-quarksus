@@ -25,7 +25,11 @@ public class RoleController {
     @Inject
     RoleService roleService;
 
-
+   /**
+    * lists all Roles
+   *
+   * @return list of all Roles
+   */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "List all Roles", description = "")
@@ -33,6 +37,12 @@ public class RoleController {
         return roleService.findAll();
     }
 
+   /**
+      * creates a role
+      *
+      *@param role the user to be created
+      * @return the created role
+      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -41,6 +51,12 @@ public class RoleController {
        return roleService.createRole(role);
     }
 
+   /**
+      * deletes a role
+      *
+      *@param id the role to be deleted
+      * @return the deleted role
+      */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -50,6 +66,13 @@ public class RoleController {
        return roleService.removeRole(id);
     }
 
+
+
+   /**
+      * updates a role
+      *
+      *@param role the role to be updated
+      */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

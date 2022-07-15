@@ -31,6 +31,11 @@ public class UserController {
     @Inject
     SecurityIdentityAssociation identity;
 
+   /**
+      * lists all Users
+      *
+      * @return list of all Users
+      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "List all Users", description = "")
@@ -38,6 +43,13 @@ public class UserController {
         return userService.findAll();
     }
 
+
+   /**
+      * creates a user
+      *
+      *@param user the user to be created
+      * @return the created user
+      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -46,6 +58,13 @@ public class UserController {
        return userService.createUser(user);
     }
 
+
+   /**
+      * deletes a user
+      *
+      *@param id the user to be deleted
+      * @return the deleted user
+      */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -55,6 +74,11 @@ public class UserController {
        return userService.removeUser(id);
     }
 
+   /**
+      * updates a user
+      *
+      *@param user the uer to be updated
+      */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -63,6 +87,11 @@ public class UserController {
        userService.updateUser(user);
     }
 
+   /**
+      * returns the role of the currently logged in user
+      *
+      *@return the role of the user that is logged in
+      */
     @GET
     @Path("/currentuserrole")
     @Produces(MediaType.TEXT_PLAIN)

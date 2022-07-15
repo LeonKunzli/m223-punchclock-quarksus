@@ -34,6 +34,12 @@ public class EntryController {
     @Inject
     SecurityIdentityAssociation identity;
 
+
+    /**
+       * lists all Entries
+      *
+      * @return list of all Entries
+      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "List all Entries", description = "")
@@ -41,6 +47,13 @@ public class EntryController {
       return entryService.findAll(getCurrentUser());
     }
 
+
+   /**
+      * creates a entry
+      *
+      *@param entry the entry to be created
+      * @return the created entry
+      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -50,6 +63,13 @@ public class EntryController {
        return entryService.createEntry(entry);
     }
 
+
+   /**
+      * deleted a entry
+      *
+      *@param id the entry to be deleted
+      * @return the deleted entry
+      */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -59,6 +79,11 @@ public class EntryController {
        return entryService.removeEntry(id);
     }
 
+   /**
+      * updates a entry
+      *
+      *@param entry the entry to be updated
+      */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -67,6 +92,12 @@ public class EntryController {
        entryService.updateEntry(entry);
     }
 
+
+   /**
+      * returns the currently logged in user
+      *
+      *@return the user that is logged in
+      */
     private User getCurrentUser(){
       return userService.getUserByName(identity.getIdentity().getPrincipal().getName());
     }

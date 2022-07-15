@@ -25,6 +25,11 @@ public class CategoryController {
     @Inject
     CategoryService categoryService;
 
+   /**
+      * lists all Categories
+      *
+      * @return list of all Categories
+      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "List all Categories", description = "")
@@ -32,6 +37,13 @@ public class CategoryController {
         return categoryService.findAll();
     }
 
+
+   /**
+      * creates a category
+      *
+      *@param category the category to be created
+      * @return the created category
+      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -40,6 +52,13 @@ public class CategoryController {
        return categoryService.createCategory(category);
     }
 
+
+   /**
+      * deletes a category
+      *
+      *@param id the category to be created
+      * @return the created category
+      */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -49,6 +68,12 @@ public class CategoryController {
        return categoryService.removeCategory(id);
     }
 
+
+   /**
+      * updates a category
+      *
+      *@param category the category to be updated
+      */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
