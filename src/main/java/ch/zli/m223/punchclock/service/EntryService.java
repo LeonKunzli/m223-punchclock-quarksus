@@ -1,5 +1,6 @@
 package ch.zli.m223.punchclock.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -40,12 +41,14 @@ public class EntryService {
     public List<Entry> findAll(User user) {
         var query = entityManager.createQuery("FROM Entry");
         List<Entry> entries = query.getResultList();
+        List<Entry> toRemove = new ArrayList<Entry>();
         if(user.getRoles().get(0).getRole().equals("user")){
             for (Entry entry : entries) {
                 if(entry.getUser()!=user){
-                    entries.remove(entry);
+                    toRemove.add(entry);
                 }
             }
+            entries.removeAll(toRemove);
         }
         return entries;
     }

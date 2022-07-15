@@ -38,8 +38,7 @@ public class EntryController {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "List all Entries", description = "")
     public List<Entry> list() {
-      User currentUser = userService.getUserByName(identity.getIdentity().getPrincipal().getName());
-      return entryService.findAll(currentUser);
+      return entryService.findAll(getCurrentUser());
     }
 
     @POST
@@ -47,6 +46,7 @@ public class EntryController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Add a new Entry", description = "The newly created entry is returned. The id may not be passed.")
     public Entry add(Entry entry) {
+      entry.setUser(getCurrentUser());
        return entryService.createEntry(entry);
     }
 
@@ -67,4 +67,7 @@ public class EntryController {
        entryService.updateEntry(entry);
     }
 
+    private User getCurrentUser(){
+      return userService.getUserByName(identity.getIdentity().getPrincipal().getName());
+    }
 }
