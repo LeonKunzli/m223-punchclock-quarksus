@@ -1,6 +1,7 @@
 const URL = 'http://localhost:8080';
 let entries = [];
 let categories = [];
+let users = [];
 let role = "user";
 
 function fetchRole() {
@@ -24,6 +25,7 @@ function fetchRole() {
             else if(role=="user"){
                 document.getElementById("categoryButton").style.display = "none";
                 document.getElementById("userColumn").style.display = "none";
+                document.getElementById("usersButton").style.display = "none";
             }
             indexEntries();
         });
@@ -47,6 +49,7 @@ function openUpdateEntryForm() {
     document.getElementById("createEntryForm").addEventListener("submit", updateEntry);
     document.getElementById("formTitle").innerText = "Update entry";
     document.getElementById("updateBack").style.display = "block";
+    document.getElementById("usersDropdown").style.display = "block";
 }
 
 function closeUpdateEntryForm() {
@@ -55,6 +58,7 @@ function closeUpdateEntryForm() {
     document.getElementById("createEntryForm").addEventListener("submit", createEntry);
     document.getElementById("formTitle").innerText = "Add entry";
     document.getElementById("updateBack").style.display = "none";
+    document.getElementById("usersDropdown").style.display = "none";
 }
 
 const createEntry = (e) => {
@@ -96,6 +100,8 @@ const updateEntry = (e) => {
     data["checkIn"] = formData.get("checkIn");
     data["checkOut"] = formData.get("checkOut");
     data["category"] = categories[formData.get("category")];
+    data["user"] = users[formData.get("user")];
+    
     fetch(`${URL}/entries`, {
         method: 'PUT',
         headers: {
@@ -162,6 +168,27 @@ const loadCategories = () => {
     });
 }
 
+function renderUserDropdown() {
+    let dropdown = document.getElementById("usersDropdown");
+    for(let i = 0;i<users.length;i++) {
+        const userIndex = i;
+        let option = document.createElement("option");
+        option.innerText = users[userIndex].username;
+        option.value = userIndex;
+        dropdown.appendChild(option);
+    }
+}
+
+const loadUsers = () => {
+    fetch(`${URL}/users`, {
+        method: 'GET'
+    }).then((result) => {
+        result.json().then((result) => {
+            users = result;
+            renderUserDropdown();
+        });
+    });
+}
 const renderEntries = () => {
     const display = document.querySelector('#entryDisplay');
     display.innerHTML = '';
@@ -193,6 +220,7 @@ const renderEntries = () => {
                 document.getElementById("checkIn").value = checkInDate.toISOString().slice(0, 16);
                 document.getElementById("checkOut").value = checkOutDate.toISOString().slice(0, 16);
                 document.getElementById("categoriesDropdown").selectedIndex = categories.map(function(e) { return e.id; }).indexOf(entry.category.id);
+                document.getElementById("usersDropdown").selectedIndex = users.map(function(e) { return e.id; }).indexOf(entry.user.id);
                 openUpdateEntryForm();
             }
             row.appendChild(updateButton);
@@ -205,4 +233,5 @@ const renderEntries = () => {
 document.addEventListener('DOMContentLoaded', function(){
     closeUpdateEntryForm();
     loadCategories();
+    loadUsers();
 });

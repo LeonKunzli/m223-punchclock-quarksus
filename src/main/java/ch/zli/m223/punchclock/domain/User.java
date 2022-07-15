@@ -35,7 +35,7 @@ public class User {
     private List<Entry> entries;*/
 
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     @Roles
     public List<Role> roles = new ArrayList<>();

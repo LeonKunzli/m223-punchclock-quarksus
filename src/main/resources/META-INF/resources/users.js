@@ -55,7 +55,7 @@ const createUser = (e) => {
     let data = {};
     data["username"] = formData.get("username");
     data["password"] = formData.get("password");
-    data["role"] = roles[formData.get("role")];
+    data["roles"] = [roles[formData.get("role")]];
 
     fetch(`${URL}/users`, {
         method: 'POST',
@@ -87,7 +87,7 @@ const updateUser = (e) => {
     data["id"] = formData.get("id");
     data["username"] = formData.get("username");
     data["password"] = formData.get("password");
-    data["role"] = roles[formData.get("role")];
+    data["roles"] = [roles[formData.get("role")]];
     fetch(`${URL}/users`, {
         method: 'PUT',
         headers: {

@@ -12,7 +12,7 @@
     </head>
     <body>
         <button onclick="location.href = 'editcategory.html'" id="categoryButton" class="adminOnly">Manage categories</button>
-        <button onclick="location.href = 'editusers.html'" id="categoryButton" class="adminOnly">Manage users</button>
+        <button onclick="location.href = 'editusers.html'" id="usersButton" class="adminOnly">Manage users</button>
         <form id="createEntryForm">
             <button id="updateBack" onclick="openUpdateEntryForm(); ">Back</button>
             <p id="formTitle"></p>
@@ -22,8 +22,8 @@
             <label for="checkOut">Check out</label>
             <input type="datetime-local" name="checkOut" id="checkOut" required>
             <select id="categoriesDropdown" name="category">
-
             </select>
+            <select id="usersDropdown" name="user" style="display: none"></select>
             <p id="error" style="color:red;"></p>
             <input type="submit" value="Save" />
         </form>

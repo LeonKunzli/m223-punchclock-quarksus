@@ -25,12 +25,6 @@ public class Role{
     @RolesValue
     public String role;
 
-    /*
-    @OneToMany(mappedBy="job", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<User> users;*/
-
-
     public Long getId() {
         return this.id;
     }

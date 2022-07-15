@@ -94,4 +94,23 @@ function loadCategories() {
         row.appendChild(deleteBtn);
         categoryDisplay.append(row);
     });
+
+    function openUpdateEntryForm() {
+        document.getElementById("error").innerText = "";
+        document.getElementById("createEntryForm").removeEventListener("submit", createEntry);
+        document.getElementById("createEntryForm").addEventListener("submit", updateEntry);
+        document.getElementById("formTitle").innerText = "Update entry";
+        document.getElementById("updateBack").style.display = "block";
+        document.getElementById("usersDropdown").style.display = "block";
+    }
+
+    function closeUpdateEntryForm() {
+        document.getElementById("error").innerText = "";
+        document.getElementById("createEntryForm").removeEventListener("submit", updateEntry);
+        document.getElementById("createEntryForm").addEventListener("submit", createEntry);
+        document.getElementById("formTitle").innerText = "Add entry";
+        document.getElementById("updateBack").style.display = "none";
+        document.getElementById("usersDropdown").style.display = "none";
+    }
+
 }
