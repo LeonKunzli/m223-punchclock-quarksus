@@ -23,6 +23,7 @@ function fetchRole() {
             }
             else if(role=="user"){
                 document.getElementById("categoryButton").style.display = "none";
+                document.getElementById("userColumn").style.display = "none";
             }
             indexEntries();
         });
@@ -172,6 +173,7 @@ const renderEntries = () => {
         row.appendChild(createCell(entry.category.name));
 
         if(role=="admin"){
+            row.appendChild(createCell(entry.user.username));
             const deleteButton = document.createElement('button');
             deleteButton.innerText = "Delete";
             deleteButton.onclick = function() {
