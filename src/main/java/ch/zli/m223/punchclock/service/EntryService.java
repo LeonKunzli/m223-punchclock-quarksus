@@ -41,7 +41,7 @@ public class EntryService {
     public List<Entry> findAll(User user) {
         var query = entityManager.createQuery("FROM Entry");
         List<Entry> entries = query.getResultList();
-        List<Entry> toRemove = new ArrayList<Entry>();
+        List<Entry> toRemove = new ArrayList<Entry>(); //Using this method to avoid ConcurrentActionException
         if(user.getRoles().get(0).getRole().equals("user")){
             for (Entry entry : entries) {
                 if(entry.getUser()!=user){
