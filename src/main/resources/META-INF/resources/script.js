@@ -1,5 +1,6 @@
 const URL = 'http://localhost:8080';
 let entries = [];
+let categories = [];
 let role = "user";
 
 function fetchRole() {
@@ -23,6 +24,7 @@ function fetchRole() {
             else if(role=="user"){
                 document.getElementById("categoryButton").style.display = "none";
             }
+            indexEntries();
         });
         }
     });
@@ -134,8 +136,6 @@ const createCell = (text) => {
     return cell;
 };
 
-let categories = [];
-
 function renderCategoryDropdown() {
     let dropdown = document.getElementById("categoriesDropdown");
     for(let i = 0;i<categories.length;i++) {
@@ -168,35 +168,35 @@ const renderEntries = () => {
         row.appendChild(createCell(new Date(entry.checkOut).toLocaleString()));
         row.appendChild(createCell(entry.category.name));
 
-        const deleteButton = document.createElement('button');
-        deleteButton.innerText = "Delete";
-        deleteButton.onclick = function() {
-            deleteEntry(entry.id);
-            indexEntries();
-        };
-        row.appendChild(deleteButton);
+        if(role=="admin"){
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = "Delete";
+            deleteButton.onclick = function() {
+                deleteEntry(entry.id);
+                indexEntries();
+            };
+            row.appendChild(deleteButton);
 
-        const updateButton = document.createElement('button');
-        updateButton.innerText = "Update";
-        updateButton.onclick = function() {
-            let checkInDate = new Date(entry.checkIn);
-            checkInDate.setMinutes(checkInDate.getMinutes() - checkInDate.getTimezoneOffset());
-            let checkOutDate = new Date(entry.checkOut);
-            checkOutDate.setMinutes(checkOutDate.getMinutes() - checkOutDate.getTimezoneOffset());
-            document.getElementById("id").value = entry.id;
-            document.getElementById("checkIn").value = checkInDate.toISOString().slice(0, 16);
-            document.getElementById("checkOut").value = checkOutDate.toISOString().slice(0, 16);
-            document.getElementById("categoriesDropdown").selectedIndex = categories.map(function(e) { return e.id; }).indexOf(entry.category.id);
-            openUpdateEntryForm();
+            const updateButton = document.createElement('button');
+            updateButton.innerText = "Update";
+            updateButton.onclick = function() {
+                let checkInDate = new Date(entry.checkIn);
+                checkInDate.setMinutes(checkInDate.getMinutes() - checkInDate.getTimezoneOffset());
+                let checkOutDate = new Date(entry.checkOut);
+                checkOutDate.setMinutes(checkOutDate.getMinutes() - checkOutDate.getTimezoneOffset());
+                document.getElementById("id").value = entry.id;
+                document.getElementById("checkIn").value = checkInDate.toISOString().slice(0, 16);
+                document.getElementById("checkOut").value = checkOutDate.toISOString().slice(0, 16);
+                document.getElementById("categoriesDropdown").selectedIndex = categories.map(function(e) { return e.id; }).indexOf(entry.category.id);
+                openUpdateEntryForm();
+            }
+            row.appendChild(updateButton);
         }
-        row.appendChild(updateButton);
-
         display.appendChild(row);
     });
 };
 
 document.addEventListener('DOMContentLoaded', function(){
     closeUpdateEntryForm();
-    indexEntries();
     loadCategories();
 });
