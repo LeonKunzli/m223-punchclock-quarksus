@@ -37,7 +37,6 @@ public class User {
     
     @ManyToMany
     @JoinColumn(name = "role_id", referencedColumnName = "id")
-    @JsonIgnore
     @Roles
     public List<Role> roles = new ArrayList<>();
 

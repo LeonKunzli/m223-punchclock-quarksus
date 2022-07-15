@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.quarkus.security.jpa.RolesValue;
 
 
@@ -17,6 +19,7 @@ public class Role{
     private Long id;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     public List<User> users;
 
     @RolesValue

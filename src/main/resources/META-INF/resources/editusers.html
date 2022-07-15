@@ -8,20 +8,18 @@
         <title>Punchclock Client</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css" />
-        <script src="script.js" type="application/javascript"></script>
+        <script src="users.js" type="application/javascript"></script>
     </head>
     <body>
-        <button onclick="location.href = 'editcategory.html'" id="categoryButton" class="adminOnly">Manage categories</button>
-        <button onclick="location.href = 'editusers.html'" id="categoryButton" class="adminOnly">Manage users</button>
-        <form id="createEntryForm">
-            <button id="updateBack" onclick="openUpdateEntryForm(); ">Back</button>
+        <button onclick="location.href = 'index.html'">Back</button>
+        <form id="createUserForm">
             <p id="formTitle"></p>
             <input type="hidden" id="id" name="id">
-            <label for="checkIn">Check in</label>
-            <input type="datetime-local" name="checkIn" id="checkIn" required>
-            <label for="checkOut">Check out</label>
-            <input type="datetime-local" name="checkOut" id="checkOut" required>
-            <select id="categoriesDropdown" name="category">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" required>
+            <label for="password">Password</label>
+            <input type="text" name="password" id="password" required>
+            <select id="rolesDropdown" name="role">
 
             </select>
             <p id="error" style="color:red;"></p>
@@ -31,18 +29,16 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Check in</th>
-                    <th>Check out</th>
-                    <th>Category</th>
-                    <th id="userColumn">User</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Role</th>
                 </tr>
             </thead>
-            <tbody id="entryDisplay">
+            <tbody id="userDisplay">
                 <tr>
                     <td colspan="3">Loading...</td>
                 </tr>
             </tbody>
         </table>
-        <button id="logoutButton">LogOut</button>
     </body>
 </html>

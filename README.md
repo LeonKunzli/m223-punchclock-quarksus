@@ -19,3 +19,7 @@ Datenquelle: jdbc:h2:mem:punchclock
 Benutzername: zli
 Passwort: zli
 
+Beispieldaten werden via Startup.java geladen:
+Rolle "user" und Rolle "admin",
+Admin "Elia" mit Passwort 1234,
+Kategorie "Default Category".
