@@ -29,8 +29,14 @@ function fetchRole() {
 }
 
 $(document).ready(function(){
+    document.getElementById("logoutButton").onclick = function() {
+        localStorage.clear();
+        location.href = "auth.html";
+    }
     fetchRole();
 });
+
+
 
 function openUpdateEntryForm() {
     document.getElementById("error").innerText = "";
