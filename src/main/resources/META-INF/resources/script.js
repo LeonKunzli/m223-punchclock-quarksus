@@ -7,10 +7,14 @@ function fetchRole() {
         method: 'GET',
         headers: {'Authorization': "Bearer " + localStorage.getItem("token")}
     }).then((response) => {
+        if(response.status == 401) {
+            location.href = "auth.html";
+        }
         if(!response.ok){
             role = null;
         }
         else{
+         
         response.text().then((temp) => {
             role = temp;
             if(role == null) {
